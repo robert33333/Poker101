@@ -11,7 +11,7 @@
         android:id="@+id/h1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_log_in"
+        android:text="@string/app_name"
         app:layout_constraintBottom_toBottomOf="@id/login_button"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
