@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         if (isLoggedIn) {
             //sarim peste login
 
-            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends", "email"));
+            //LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends", "email"));
 
 
             //luam date
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
             Bundle parameters = new Bundle();
-            parameters.putString("fields", "id,name,link,email,friends");
+            parameters.putString("fields", "id,name,link,email,friends,picture");
             request.setParameters(parameters);
             request.executeAsync();
 

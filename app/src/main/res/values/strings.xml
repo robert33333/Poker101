@@ -11,6 +11,8 @@
     <string name="btn_logout">Logout</string>
     <string name="text_placeholder">Text Placeholder</string>
 
+    <string name="friends_list">Friends List</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

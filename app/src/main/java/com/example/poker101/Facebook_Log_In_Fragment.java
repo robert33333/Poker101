@@ -49,7 +49,7 @@ public class Facebook_Log_In_Fragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends", "email"));
+        //LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends", "email"));
         LoginManager.getInstance().registerCallback(User.callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
@@ -70,7 +70,7 @@ public class Facebook_Log_In_Fragment extends Fragment {
                                     }
                                 });
                         Bundle parameters = new Bundle();
-                        parameters.putString("fields", "id,name,link,email,friends");
+                        parameters.putString("fields", "id,name,link,email,friends,picture");
                         request.setParameters(parameters);
                         request.executeAsync();
                     }
@@ -83,6 +83,7 @@ public class Facebook_Log_In_Fragment extends Fragment {
                     @Override
                     public void onError(FacebookException exception) {
                         // App code
+                        getActivity().finish();
                     }
                 });
     }
