@@ -22,4 +22,9 @@ public class MenuActivity extends AppCompatActivity {
         User.callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

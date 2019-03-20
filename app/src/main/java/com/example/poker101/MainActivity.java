@@ -21,12 +21,6 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
-//    public static CallbackManager callbackManager;
-//    public static AccessTokenTracker accessTokenTracker;
-//    public static ProfileTracker profileTracker;
-//    public static AccessToken accessToken;
-//    public JSONObject user;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,27 +36,8 @@ public class MainActivity extends AppCompatActivity {
         if (isLoggedIn) {
             //sarim peste login
 
-            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends", "email", "picture"));
+            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends", "email"));
 
-//            accessTokenTracker = new AccessTokenTracker() {
-//                @Override
-//                protected void onCurrentAccessTokenChanged(
-//                        AccessToken oldAccessToken,
-//                        AccessToken currentAccessToken) {
-//                    // Set the access token using
-//                    // currentAccessToken when it's loaded or set.
-//                }
-//            };
-//
-//
-//            profileTracker = new ProfileTracker() {
-//                @Override
-//                protected void onCurrentProfileChanged(
-//                        Profile oldProfile,
-//                        Profile currentProfile) {
-//                    // App code
-//                }
-//            };
 
             //luam date
             GraphRequest request = GraphRequest.newMeRequest(
@@ -78,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
             Bundle parameters = new Bundle();
-            parameters.putString("fields", "id,name,link,picture,email,friends");
+            parameters.putString("fields", "id,name,link,email,friends");
             request.setParameters(parameters);
             request.executeAsync();
 
@@ -103,11 +78,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        if (accessTokenTracker != null && accessTokenTracker.isTracking()) {
-//            accessTokenTracker.stopTracking();
-//        }
-//        if (profileTracker != null && profileTracker.isTracking()) {
-//            profileTracker.stopTracking();
-//        }
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        super.onBackPressed();
     }
 }
