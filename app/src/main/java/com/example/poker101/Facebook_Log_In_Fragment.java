@@ -7,31 +7,26 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.Profile;
-import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
 import org.json.JSONObject;
 
-import java.util.Arrays;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Facebook_Log_In_Fragment extends Fragment {
-
-//    private CallbackManager callbackManager;
 
     public Facebook_Log_In_Fragment() {
         // Required empty public constructor
@@ -49,7 +44,6 @@ public class Facebook_Log_In_Fragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends", "email"));
         LoginManager.getInstance().registerCallback(User.callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
@@ -78,12 +72,14 @@ public class Facebook_Log_In_Fragment extends Fragment {
                     @Override
                     public void onCancel() {
                         // App code
+                        Toast.makeText(getApplicationContext(),R.string.log_in_cancel,Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
                         // App code
-                        getActivity().finish();
+                        //getActivity().finish();
+                        Toast.makeText(getApplicationContext(),R.string.log_in_error,Toast.LENGTH_LONG).show();
                     }
                 });
     }

@@ -1,10 +1,6 @@
 package com.example.poker101;
 
-import android.app.Activity;
-import android.content.Intent;
-
 import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 
 import org.json.JSONObject;
