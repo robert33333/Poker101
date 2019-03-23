@@ -56,6 +56,8 @@ public class MenuFragment extends Fragment {
 
         Button btn_profile = getActivity().findViewById(R.id.btn_profile);
 
+        Button btn_settings = getActivity().findViewById(R.id.btn_settings);
+
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,5 +77,21 @@ public class MenuFragment extends Fragment {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_menu, fragment_profile, "fragment_profile").addToBackStack(null).commit();
             }
         });
+
+        btn_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment_settings = new SettingsFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_menu, fragment_settings, "fragment_settings").addToBackStack(null).commit();
+            }
+        });
+
+
+        if (User.goBackToSettings) {
+            User.goBackToSettings = false;
+            Fragment fragment_settings = new SettingsFragment();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_menu, fragment_settings, "fragment_settings").addToBackStack(null).commit();
+        }
+
     }
 }

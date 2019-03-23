@@ -1,11 +1,33 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="Default" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColor">@color/colorDefaultText</item>
+        <item name="android:buttonStyle">@style/ButtonDefault</item>
+        <item name="android:background">@color/colorDefaultBackground</item>
+    </style>
+    <style name="ButtonDefault" parent="@android:style/Widget.Button">
+        <item name="android:textColor">@color/colorDefaultText</item>
+        <item name="android:background">@color/colorDefaultButton</item>
+    </style>
+
+    <style name="Dark" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColor">@color/colorDarkText</item>
+        <item name="android:buttonStyle">@style/ButtonDark</item>
+        <item name="android:background">@color/colorDarkBackground</item>
+    </style>
+    <style name="ButtonDark" parent="@android:style/Widget.Button">
+        <item name="android:textColor">@color/colorDarkText</item>
+        <item name="android:background">@color/colorDarkButton</item>
+    </style>
+
+    <style name="Light" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColor">@color/colorLightText</item>
+        <item name="android:buttonStyle">@style/ButtonLight</item>
+        <item name="android:background">@color/colorLightBackground</item>
+    </style>
+    <style name="ButtonLight" parent="@android:style/Widget.Button">
+        <item name="android:textColor">@color/colorLightText</item>
+        <item name="android:background">@color/colorLightButton</item>
     </style>
 
 </resources>
