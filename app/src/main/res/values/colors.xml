@@ -10,10 +10,15 @@
 
     <color name="colorDarkBackground">#000000</color>
     <color name="colorDarkText">#FFFFFF</color>
-    <color name="colorDarkButton">#54000000</color>
+    <color name="colorDarkButton">#FF8F00</color>
 
-    <color name="colorLightBackground">#03A9F4</color>
-    <color name="colorLightText">#00C853</color>
-    <color name="colorLightButton">#54000000</color>
+    <!--<color name="colorLightBackground">#6200EE</color>-->
+    <!--<color name="colorLightText">#BB86FC</color>-->
+    <!--<color name="colorLightButton">#3700B3</color>-->
+
+    <color name="colorLightBackground">#FF6F00</color>
+    <color name="colorLightText">#FFFFFF</color>
+    <color name="colorLightButton">#B80000</color>
+
 
 </resources>

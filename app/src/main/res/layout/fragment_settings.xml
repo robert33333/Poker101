@@ -9,6 +9,7 @@
     <!-- TODO: Update blank fragment layout -->
     <TextView
     android:id="@+id/txt_settings"
+        android:textSize="25dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/fragment_settings"
