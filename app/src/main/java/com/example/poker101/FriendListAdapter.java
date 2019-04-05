@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -15,14 +17,27 @@ import org.json.JSONException;
 
 public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.ViewWrapper> {
     JSONArray list_friend;
+    Boolean extra = false;
+
     public FriendListAdapter( JSONArray list_friend) {
         this.list_friend=list_friend;
+    }
+
+    public FriendListAdapter( JSONArray list_friend,Boolean extra) {
+        this.list_friend=list_friend;
+        this.extra = extra;
     }
 
     @Override
     public ViewWrapper onCreateViewHolder(ViewGroup viewGroup, int i) {
         // create a new view
-        @SuppressLint("InflateParams") View itemLayoutView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_friend, null);
+        View itemLayoutView;
+        if (!extra) {
+            itemLayoutView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_friend, null);
+        }
+        else {
+            itemLayoutView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_friend_play, null);
+        }
         // create ViewHolder
         return new ViewWrapper(itemLayoutView);
     }
@@ -32,6 +47,18 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
         try {
             viewWrapper.getFriend_name().setText(list_friend.getJSONObject(viewWrapper.getAdapterPosition()).getString("name"));
             Picasso.get().load("http://graph.facebook.com/"+list_friend.getJSONObject(viewWrapper.getAdapterPosition()).get("id")+"/picture?type=large").into(viewWrapper.getFriend_img());
+            if (extra) {
+                viewWrapper.getFriend_btn().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            Toast.makeText(viewWrapper.base.getContext(),list_friend.getJSONObject(viewWrapper.getAdapterPosition()).get("id").toString(),Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -48,6 +75,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
 
         AppCompatTextView friend_name;
         AppCompatImageView friend_img;
+        Button friend_btn;
 
         public ViewWrapper(View itemView) {
             super(itemView);
@@ -66,6 +94,13 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
                 friend_img = base.findViewById(R.id.friend_img);
             }
             return (friend_img);
+        }
+
+        Button getFriend_btn() {
+            if (friend_btn == null) {
+                friend_btn = base.findViewById(R.id.friend_btn);
+            }
+            return (friend_btn);
         }
     }
 }

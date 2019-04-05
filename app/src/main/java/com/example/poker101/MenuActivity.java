@@ -63,16 +63,16 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        sendAvailabilityInfoToServer();
+        sendAvailabilityInfoToServer("userOnline");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        sendAvailabilityInfoToServer();
+        sendAvailabilityInfoToServer("userOffline");
     }
 
-    private void sendAvailabilityInfoToServer() {
+    private void sendAvailabilityInfoToServer(final String option) {
         Runnable myRunnable = new Runnable() {
             @Override
             public void run() {
@@ -81,7 +81,7 @@ public class MenuActivity extends AppCompatActivity {
                         User.initialize();
                     }
                     Comanda cmd =
-                            new Comanda("changeOnlineState",
+                            new Comanda(option,
                                     User.user.get("id"));
                     oos.writeObject(cmd);
                 } catch (IOException e) {

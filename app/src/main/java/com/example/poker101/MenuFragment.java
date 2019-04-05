@@ -58,6 +58,8 @@ public class MenuFragment extends Fragment {
 
         Button btn_settings = getActivity().findViewById(R.id.btn_settings);
 
+        Button btn_play = getActivity().findViewById(R.id.btn_play);
+
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -86,6 +88,14 @@ public class MenuFragment extends Fragment {
             }
         });
 
+
+        btn_play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment_play = new Play_Friends_Fragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_menu, fragment_play, "fragment_play").addToBackStack(null).commit();
+            }
+        });
 
         if (User.goBackToSettings) {
             User.goBackToSettings = false;

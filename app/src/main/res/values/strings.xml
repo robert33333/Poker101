@@ -30,4 +30,11 @@
         <item>Light</item>
     </string-array>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="play_with_a_friend">Play with a friend</string>
+
+    <string name="play_button">Play</string>
+
 </resources>
