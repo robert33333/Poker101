@@ -5,8 +5,16 @@ import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.EditText;
+
+import com.example.poker101.date.Comanda;
+
+import org.json.JSONException;
+
+import java.io.IOException;
 
 import static com.example.poker101.User.MY_PREFS_NAME;
+import static com.example.poker101.User.oos;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -50,5 +58,47 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sendAvailabilityInfoToServer();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sendAvailabilityInfoToServer();
+    }
+
+    private void sendAvailabilityInfoToServer() {
+        Runnable myRunnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (User.socket == null) {
+                        User.initialize();
+                    }
+                    Comanda cmd =
+                            new Comanda("changeOnlineState",
+                                    User.user.get("id"));
+                    oos.writeObject(cmd);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        Thread myThread = new Thread(myRunnable);
+        myThread.start();
+        try {
+            myThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

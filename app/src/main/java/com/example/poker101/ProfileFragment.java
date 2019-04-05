@@ -14,10 +14,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.poker101.date.Comanda;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.poker101.User.ois;
+import static com.example.poker101.User.oos;
 
 
 /**
@@ -39,7 +48,7 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         AppCompatTextView profile_name = getActivity().findViewById(R.id.profile_name);
@@ -49,18 +58,60 @@ public class ProfileFragment extends Fragment {
             Picasso.get().load("http://graph.facebook.com/"+User.user.get("id")+"/picture?type=large").into(profile_img);
             profile_name.setText(User.user.getString("name"));
 
+            final JSONArray list_friend = User.user.getJSONObject("friends").getJSONArray("data");
+            Runnable myRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        if (User.socket == null) {
+                            User.initialize();
+                        }
+                        List<String> list = new ArrayList<String>();
+                        for(int i = 0; i < list_friend.length(); i++){
+                            list.add(list_friend.getJSONObject(i).getString("id"));
+                        }
+                        Comanda cmd =
+                                new Comanda("getFriends",
+                                        list);
+                        oos.writeObject(cmd);
+                        List<String> list_friend2 = (List<String>) ois.readObject();
+                        RecyclerView rv_test = view.findViewById(R.id.rv_friend_list);
+                        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
+                        rv_test.setLayoutManager(mLinearLayoutManager);
+                        rv_test.setHasFixedSize(true);
+                        rv_test.setItemAnimator(new DefaultItemAnimator());
 
-            JSONArray list_friend = User.user.getJSONObject("friends").getJSONArray("data");
-            RecyclerView rv_test = view.findViewById(R.id.rv_friend_list);
-            LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
-            rv_test.setLayoutManager(mLinearLayoutManager);
-            rv_test.setHasFixedSize(true);
-            rv_test.setItemAnimator(new DefaultItemAnimator());
+                        //Set Adapter
+                        JSONArray list_friend3 = new JSONArray();
+                        for (int i = 0; i < list_friend.length(); i++) {
+                            if (list_friend2.contains(list_friend.getJSONObject(i).getString("id"))) {
+                                list_friend3.put(list_friend.getJSONObject(i));
+                            }
+                        }
+                        FriendListAdapter mAdapter = new FriendListAdapter(list_friend3);
+                        rv_test.setAdapter(mAdapter);
 
-            //Set Adapter
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-            FriendListAdapter mAdapter = new FriendListAdapter(list_friend);
-            rv_test.setAdapter(mAdapter);
+                }
+            };
+
+            Thread myThread = new Thread(myRunnable);
+            myThread.start();
+            try {
+                myThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+
 
 
         } catch (JSONException e) {

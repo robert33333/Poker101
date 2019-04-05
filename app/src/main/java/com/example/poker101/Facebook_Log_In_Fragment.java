@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.poker101.date.Comanda;
 import com.facebook.AccessToken;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -19,8 +20,12 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+
+import static com.example.poker101.User.oos;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
@@ -85,6 +90,34 @@ public class Facebook_Log_In_Fragment extends Fragment {
     }
 
     public void nextActivity() {
+        Runnable myRunnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (User.socket == null) {
+                        User.initialize();
+                    }
+                    Comanda cmd =
+                            new Comanda("login",
+                                    User.user.get("id"));
+                    oos.writeObject(cmd);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        Thread myThread = new Thread(myRunnable);
+        myThread.start();
+        try {
+            myThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         Activity activity1 = getActivity();
         Intent intent = new Intent(activity1, MenuActivity.class);
         startActivity(intent);
