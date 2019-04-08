@@ -56,11 +56,20 @@ public class User {
 
     public static void goToWaitScreen() {
         Intent intent = new Intent(context, PlayActivity.class);
+        intent.putExtra("layout",R.layout.fragment_play__response_);
         context.startActivity(intent);
     }
 
     public static void goToWaitScreen(boolean invited) {
         Intent intent = new Intent(context, PlayActivity.class);
+        intent.putExtra("layout",R.layout.fragment_wait__accept_);
+        context.startActivity(intent);
+    }
+
+    public static void goToMenu() {
+        Intent intent = new Intent(context, MenuActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("fromDecline",true);
         context.startActivity(intent);
     }
 }

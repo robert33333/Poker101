@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.poker101.date.Comanda;
 
@@ -44,6 +45,9 @@ public class MenuActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_menu);
 
+        if (getIntent().getBooleanExtra("fromDecline", false)) {
+            Toast.makeText(this, "The opponent has closed the game.", Toast.LENGTH_LONG).show();
+        }
         Fragment fragment_menu = new MenuFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_menu, fragment_menu, "fragment_menu").commit();
 

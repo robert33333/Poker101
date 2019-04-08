@@ -37,4 +37,9 @@
 
     <string name="play_button">Play</string>
 
+    <string name="wait_response">Waiting for your friend to respond...</string>
+    <string name="invite_response">You have received an invitation to play from your friend.</string>
+    <string name="invite_decline">Press back to decline.</string>
+
+
 </resources>

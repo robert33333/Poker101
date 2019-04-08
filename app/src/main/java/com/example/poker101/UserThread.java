@@ -38,6 +38,10 @@ class UserThread extends Thread {
                             goToWaitScreen();
                             //Toast.makeText(User.context,"test",Toast.LENGTH_LONG).show();
                             break;
+                        case "declineInvite":
+                            User.currentOpponent = null;
+                            User.goToMenu();
+                            break;
                     }
                 }
                 else {
