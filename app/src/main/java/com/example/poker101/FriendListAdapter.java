@@ -1,19 +1,33 @@
 package com.example.poker101;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.poker101.date.Comanda;
+import com.example.poker101.date.Invite;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.poker101.User.goToWaitScreen;
+import static com.example.poker101.User.ois;
+import static com.example.poker101.User.oos;
 
 public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.ViewWrapper> {
     JSONArray list_friend;
@@ -52,7 +66,11 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
                     @Override
                     public void onClick(View view) {
                         try {
-                            Toast.makeText(viewWrapper.base.getContext(),list_friend.getJSONObject(viewWrapper.getAdapterPosition()).get("id").toString(),Toast.LENGTH_LONG).show();
+                            //Toast.makeText(viewWrapper.base.getContext(),list_friend.getJSONObject(viewWrapper.getAdapterPosition()).get("id").toString(),Toast.LENGTH_LONG).show();
+                            User.currentOpponent = list_friend.getJSONObject(viewWrapper.getAdapterPosition()).get("id").toString();
+                            sendInviteToServer();
+                            Intent intent = new Intent(viewWrapper.base.getContext(), PlayActivity.class);
+                            viewWrapper.base.getContext().startActivity(intent);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -60,6 +78,38 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
                 });
             }
         } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void sendInviteToServer() {
+        Runnable myRunnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (User.socket == null) {
+                        User.initialize();
+                    }
+                    Comanda cmd =
+                            new Comanda("inviteFriend",
+                                    new Invite(User.user.getString("id"),User.currentOpponent));
+                    oos.writeObject(cmd);
+                    goToWaitScreen(false);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        Thread myThread = new Thread(myRunnable);
+        myThread.start();
+        try {
+            myThread.join();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }

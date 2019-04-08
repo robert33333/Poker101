@@ -5,12 +5,18 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.poker101.date.Comanda;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+
+import static com.example.poker101.User.oos;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        User.context = getApplicationContext();
 
         User.callbackManager = CallbackManager.Factory.create();
 
@@ -61,6 +69,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void nextActivity() {
+        Runnable myRunnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    if (User.socket == null) {
+                        User.initialize();
+                    }
+                    Comanda cmd =
+                            new Comanda("login",
+                                    User.user.get("id"));
+                    oos.writeObject(cmd);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        Thread myThread = new Thread(myRunnable);
+        myThread.start();
+        try {
+            myThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
         this.finish();

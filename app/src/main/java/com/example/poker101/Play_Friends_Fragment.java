@@ -69,7 +69,8 @@ public class Play_Friends_Fragment extends Fragment {
                                 new Comanda("getFriendsOnline",
                                         list);
                         oos.writeObject(cmd);
-                        List<String> list_friend2 = (List<String>) ois.readObject();
+                        UserThread.waitMessage();
+                        List<String> list_friend2 = (List<String>) UserThread.readMessage();
                         RecyclerView rv_test = view.findViewById(R.id.rv_friend_list);
                         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
                         rv_test.setLayoutManager(mLinearLayoutManager);
@@ -87,8 +88,6 @@ public class Play_Friends_Fragment extends Fragment {
                         rv_test.setAdapter(mAdapter);
 
                     } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     } catch (JSONException e) {
                         e.printStackTrace();

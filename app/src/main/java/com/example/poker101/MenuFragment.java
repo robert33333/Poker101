@@ -39,8 +39,6 @@ public class MenuFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         try {
             User.user.get("id");
         } catch (JSONException e) {
@@ -51,6 +49,8 @@ public class MenuFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        //User.context = getContext();
 
         Button btn_logout = getActivity().findViewById(R.id.btn_logout);
 

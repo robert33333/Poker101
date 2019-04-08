@@ -1,5 +1,8 @@
 package com.example.poker101;
 
+import android.content.Context;
+import android.content.Intent;
+
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 
@@ -11,6 +14,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class User {
+
+
+    public static Context context;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
 
     public static JSONObject user;
@@ -28,13 +34,33 @@ public class User {
     public static ObjectInputStream ois;
     public static Socket socket;
 
+
+    public static String currentOpponent;
+
+    public final static UserThread T = new UserThread();
+
     public static void initialize() {
         try {
             socket = new Socket("10.0.2.2", 9090);
             ois = new ObjectInputStream(socket.getInputStream());
             oos = new ObjectOutputStream(socket.getOutputStream());
+
+
+            T.start();
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void goToWaitScreen() {
+        Intent intent = new Intent(context, PlayActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void goToWaitScreen(boolean invited) {
+        Intent intent = new Intent(context, PlayActivity.class);
+        context.startActivity(intent);
     }
 }

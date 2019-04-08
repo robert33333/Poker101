@@ -27,6 +27,8 @@ public class MenuActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
+        User.context = getApplicationContext();
+
         switch (User.theme_id) {
             case 0:
                 setTheme(R.style.Default);

@@ -62,44 +62,49 @@ public class ProfileFragment extends Fragment {
             Runnable myRunnable = new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        if (User.socket == null) {
-                            User.initialize();
-                        }
-                        List<String> list = new ArrayList<String>();
-                        for(int i = 0; i < list_friend.length(); i++){
-                            list.add(list_friend.getJSONObject(i).getString("id"));
-                        }
-                        Comanda cmd =
-                                new Comanda("getFriends",
-                                        list);
-                        oos.writeObject(cmd);
-                        List<String> list_friend2 = (List<String>) ois.readObject();
-                        RecyclerView rv_test = view.findViewById(R.id.rv_friend_list);
-                        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
-                        rv_test.setLayoutManager(mLinearLayoutManager);
-                        rv_test.setHasFixedSize(true);
-                        rv_test.setItemAnimator(new DefaultItemAnimator());
-
-                        //Set Adapter
-                        JSONArray list_friend3 = new JSONArray();
-                        for (int i = 0; i < list_friend.length(); i++) {
-                            if (list_friend2.contains(list_friend.getJSONObject(i).getString("id"))) {
-                                list_friend3.put(list_friend.getJSONObject(i));
+                        try {
+                            if (User.socket == null) {
+                                User.initialize();
                             }
-                        }
-                        FriendListAdapter mAdapter = new FriendListAdapter(list_friend3);
-                        rv_test.setAdapter(mAdapter);
+                            List<String> list = new ArrayList<String>();
+                            for (int i = 0; i < list_friend.length(); i++) {
+                                list.add(list_friend.getJSONObject(i).getString("id"));
+                            }
+                            Comanda cmd =
+                                    new Comanda("getFriends",
+                                            list);
+                            oos.writeObject(cmd);
+                            UserThread.waitMessage();
+                            List<String> list_friend2 = (List<String>) UserThread.readMessage();
+                            RecyclerView rv_test = view.findViewById(R.id.rv_friend_list);
+                            LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
+                            rv_test.setLayoutManager(mLinearLayoutManager);
+                            rv_test.setHasFixedSize(true);
+                            rv_test.setItemAnimator(new DefaultItemAnimator());
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                            //Set Adapter
+                            JSONArray list_friend3 = new JSONArray();
+                            for (int i = 0; i < list_friend.length(); i++) {
+                                if (list_friend2.contains(list_friend.getJSONObject(i).getString("id"))) {
+                                    list_friend3.put(list_friend.getJSONObject(i));
+                                }
+                            }
+                            FriendListAdapter mAdapter = new FriendListAdapter(list_friend3);
+                            rv_test.setAdapter(mAdapter);
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        catch (Exception exp) {
+                            exp.printStackTrace();
+                        }
+
                     }
 
-                }
+
+                ;
             };
 
             Thread myThread = new Thread(myRunnable);
