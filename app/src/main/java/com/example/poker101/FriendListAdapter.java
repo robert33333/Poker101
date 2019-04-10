@@ -69,8 +69,8 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
                             //Toast.makeText(viewWrapper.base.getContext(),list_friend.getJSONObject(viewWrapper.getAdapterPosition()).get("id").toString(),Toast.LENGTH_LONG).show();
                             User.currentOpponent = list_friend.getJSONObject(viewWrapper.getAdapterPosition()).get("id").toString();
                             sendInviteToServer();
-                            Intent intent = new Intent(viewWrapper.base.getContext(), PlayActivity.class);
-                            viewWrapper.base.getContext().startActivity(intent);
+//                            Intent intent = new Intent(viewWrapper.base.getContext(), PlayActivity.class);
+//                            viewWrapper.base.getContext().startActivity(intent);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

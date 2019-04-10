@@ -77,5 +77,6 @@ class UserThread extends Thread {
 
     public static void waitMessage() {
         while (!messageReady);
+        System.out.println("Exit!");
     }
 }

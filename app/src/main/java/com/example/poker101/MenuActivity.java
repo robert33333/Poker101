@@ -28,8 +28,6 @@ public class MenuActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        User.context = getApplicationContext();
-
         switch (User.theme_id) {
             case 0:
                 setTheme(R.style.Default);
@@ -69,6 +67,7 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        User.context = getApplicationContext();
         sendAvailabilityInfoToServer("userOnline");
     }
 

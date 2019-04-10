@@ -26,8 +26,6 @@ public class PlayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
 
-        User.context = getApplicationContext();
-
         switch (User.theme_id) {
             case 0:
                 setTheme(R.style.Default);
@@ -59,7 +57,7 @@ public class PlayActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
 
         Runnable myRunnable = new Runnable() {
             @Override
@@ -89,8 +87,15 @@ public class PlayActivity extends AppCompatActivity {
         myThread.start();
         try {
             myThread.join();
+            super.onBackPressed();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        User.context = getApplicationContext();
     }
 }
