@@ -74,7 +74,6 @@ public class ProfileFragment extends Fragment {
                                     new Comanda("getFriends",
                                             list);
                             oos.writeObject(cmd);
-                            UserThread.waitMessage();
                             List<String> list_friend2 = (List<String>) UserThread.readMessage();
                             RecyclerView rv_test = view.findViewById(R.id.rv_friend_list);
                             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
