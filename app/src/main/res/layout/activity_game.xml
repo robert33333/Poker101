@@ -127,6 +127,88 @@
          />
 
     <ImageView
+        android:id="@+id/chips_played"
+        android:background="@android:color/transparent"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/chips_original"
+        app:layout_constraintTop_toBottomOf="@id/dealer_card2"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="@id/dealer_card2"
+        app:layout_constraintRight_toRightOf="@id/dealer_card2"
+        />
+
+    <ImageView
+        android:id="@+id/opponent_chips_played"
+        android:background="@android:color/transparent"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/chips_original"
+        app:layout_constraintBottom_toTopOf="@id/dealer_card2"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="@id/dealer_card2"
+        app:layout_constraintRight_toRightOf="@id/dealer_card2"
+        />
+
+    <TextView
+        android:id="@+id/opponent_chips_played_text"
+        android:background="@android:color/transparent"
+        android:textColor="@android:color/white"
+        android:text="@string/text_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        app:layout_constraintBottom_toBottomOf="@id/opponent_chips_played"
+        app:layout_constraintTop_toTopOf="@id/opponent_chips_played"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toRightOf="@id/opponent_chips_played"
+         />
+
+    <TextView
+        android:id="@+id/chips_played_text"
+        android:background="@android:color/transparent"
+        android:textColor="@android:color/white"
+        android:text="@string/text_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        app:layout_constraintBottom_toBottomOf="@id/chips_played"
+        app:layout_constraintTop_toTopOf="@id/chips_played"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toRightOf="@id/chips_played"
+        />
+
+    <TextView
+        android:id="@+id/chips_total_text"
+        android:background="@android:color/transparent"
+        android:textColor="@android:color/white"
+        android:text="@string/text_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@id/chips"
+        app:layout_constraintRight_toRightOf="@id/chips"
+        app:layout_constraintLeft_toLeftOf="@id/chips"
+        />
+
+    <TextView
+        android:id="@+id/turn_action"
+        android:background="@android:color/transparent"
+        android:textColor="@android:color/white"
+        android:text="@string/text_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/player_card1"
+        app:layout_constraintTop_toBottomOf="@id/opponent_card2"
+        app:layout_constraintRight_toRightOf="@id/player_card2"
+        app:layout_constraintLeft_toLeftOf="@id/player_card1"
+        />
+
+    <ImageView
         android:id="@+id/opponent_chips"
         android:background="@android:color/transparent"
         android:layout_width="90dp"
@@ -212,6 +294,49 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        />
+
+    <Button
+        android:id="@+id/raise_decrement"
+        app:backgroundTint="@android:color/holo_orange_light"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="5dp"
+        android:padding="5dp"
+        android:textSize="12sp"
+        android:text="@string/btn_minus"
+        app:layout_constraintLeft_toLeftOf="@id/btn_raise"
+        app:layout_constraintBottom_toTopOf="@id/btn_raise"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        />
+
+    <Button
+        android:id="@+id/raise_increment"
+        app:backgroundTint="@android:color/holo_orange_light"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:padding="5dp"
+        android:textSize="12sp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/btn_plus"
+        app:layout_constraintRight_toRightOf="@id/btn_raise"
+        app:layout_constraintBottom_toTopOf="@id/btn_raise"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        />
+
+    <TextView
+        android:id="@+id/raise_text"
+        android:background="@android:color/transparent"
+        android:textColor="@android:color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_raise"
+        android:layout_margin="1dp"
+        app:layout_constraintRight_toLeftOf="@id/raise_increment"
+        app:layout_constraintLeft_toRigthOf="@id/raise_decrement"
+        app:layout_constraintBottom_toBottomOf="@id/raise_decrement"
+        app:layout_constraintTop_toTopOf="@id/raise_decrement"
         app:layout_constraintHorizontal_chainStyle="packed"
         />
 
