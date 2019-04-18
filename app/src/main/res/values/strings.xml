@@ -41,5 +41,10 @@
     <string name="invite_response">You have received an invitation to play from your friend.</string>
     <string name="invite_decline">Press back to decline.</string>
 
+    <string name="btn_check">Check</string>
+    <string name="btn_call">Call</string>
+    <string name="btn_fold">Fold</string>
+    <string name="btn_raise">Raise</string>
+
 
 </resources>
