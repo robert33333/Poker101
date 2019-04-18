@@ -4,8 +4,6 @@ package com.example.poker101;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +13,6 @@ import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
 
 import com.example.poker101.date.Comanda;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +21,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.poker101.User.ois;
 import static com.example.poker101.User.oos;
 
 
@@ -69,7 +65,7 @@ public class Play_Friends_Fragment extends Fragment {
                                 new Comanda("getFriendsOnline",
                                         list);
                         oos.writeObject(cmd);
-                        List<String> list_friend2 = (List<String>) UserThread.readMessage();
+                        List<String> list_friend2 = (List<String>) User.readMessage();
                         RecyclerView rv_test = view.findViewById(R.id.rv_friend_list);
                         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
                         rv_test.setLayoutManager(mLinearLayoutManager);

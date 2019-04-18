@@ -13,4 +13,15 @@ public class GameActivity extends AppCompatActivity {
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        User.context = getApplicationContext();
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+    }
 }

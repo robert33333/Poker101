@@ -100,5 +100,12 @@ public class PlayActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         User.context = getApplicationContext();
+        User.getMessage=true;
+    }
+
+    @Override
+    protected void onPause() {
+        User.getMessage=false;
+        super.onPause();
     }
 }

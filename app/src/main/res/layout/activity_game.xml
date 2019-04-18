@@ -334,7 +334,7 @@
         android:text="@string/txt_raise"
         android:layout_margin="1dp"
         app:layout_constraintRight_toLeftOf="@id/raise_increment"
-        app:layout_constraintLeft_toRigthOf="@id/raise_decrement"
+        app:layout_constraintLeft_toRightOf="@id/raise_decrement"
         app:layout_constraintBottom_toBottomOf="@id/raise_decrement"
         app:layout_constraintTop_toTopOf="@id/raise_decrement"
         app:layout_constraintHorizontal_chainStyle="packed"

@@ -19,13 +19,11 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.poker101.User.ois;
 import static com.example.poker101.User.oos;
 
 
@@ -74,7 +72,7 @@ public class ProfileFragment extends Fragment {
                                     new Comanda("getFriends",
                                             list);
                             oos.writeObject(cmd);
-                            List<String> list_friend2 = (List<String>) UserThread.readMessage();
+                            List<String> list_friend2 = (List<String>) User.readMessage();
                             RecyclerView rv_test = view.findViewById(R.id.rv_friend_list);
                             LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
                             rv_test.setLayoutManager(mLinearLayoutManager);

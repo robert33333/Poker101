@@ -48,8 +48,6 @@ public class User {
 
     public static String currentOpponent;
 
-   // public final static UserThread T = new UserThread();
-
     public static void initialize() {
         try {
             socket = new Socket("10.0.2.2", 9090);
@@ -91,6 +89,8 @@ public class User {
                                          User.currentOpponent = null;
                                          User.goToMenu();
                                          break;
+                                     case "acceptInvite":
+                                         User.goToGame();
                                  }
                              } catch (IOException e) {
                                  e.printStackTrace();
@@ -135,5 +135,21 @@ public class User {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("fromDecline",true);
         context.startActivity(intent);
+    }
+
+    public static void goToGame() {
+        Intent intent = new Intent(context, GameActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static Object readMessage() {
+        try {
+            return ((Comanda)ois.readObject()).getObj();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

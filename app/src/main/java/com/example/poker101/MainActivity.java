@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        User.context = getApplicationContext();
 
         User.callbackManager = CallbackManager.Factory.create();
 
@@ -111,5 +110,11 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
 
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        User.context = getApplicationContext();
     }
 }

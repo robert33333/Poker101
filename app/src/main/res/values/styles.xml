@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="Default" parent="Theme.AppCompat">
+    <style name="Default" parent="Theme.AppCompat.NoActionBar">
         <item name="android:textColor">@color/colorDefaultText</item>
         <item name="android:buttonStyle">@style/ButtonDefault</item>
         <item name="android:background">@color/colorDefaultBackground</item>
@@ -14,7 +14,7 @@
         <item name="android:backgroundTint">@color/colorDefaultButton</item>
     </style>
 
-    <style name="Dark" parent="Theme.AppCompat">
+    <style name="Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="android:textColor">@color/colorDarkText</item>
         <item name="android:buttonStyle">@style/ButtonDark</item>
         <item name="android:background">@color/colorDarkBackground</item>
@@ -28,7 +28,7 @@
         <item name="android:backgroundTint">@color/colorDarkButton</item>
     </style>
 
-    <style name="Light" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Light" parent="Theme.AppCompat.NoActionBar">
         <item name="android:textColor">@color/colorLightText</item>
         <item name="android:buttonStyle">@style/ButtonLight</item>
         <item name="android:background">@color/colorLightBackground</item>
