@@ -25,6 +25,7 @@ import static java.lang.Thread.sleep;
 
 public class User {
 
+    public static boolean getMessage = false;
 
     public static Context context;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
@@ -66,6 +67,9 @@ public class User {
 
                          while (true) {
                              TimeUnit.SECONDS.sleep(5);
+                             if (!getMessage) {
+                                 continue;
+                             }
                              Comanda comanda1 = null;
                              try {
                                  comanda1 = new Comanda("getMessage", User.user.getString("id"));
@@ -107,7 +111,7 @@ public class User {
              };
 
              Thread thread = new Thread(listen);
-            thread.start();
+             thread.start();
 
         } catch (IOException e) {
             e.printStackTrace();

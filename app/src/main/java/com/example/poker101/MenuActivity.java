@@ -2,6 +2,7 @@ package com.example.poker101;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ public class MenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         //getUserPreferences
         SharedPreferences prefs = getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
         User.theme_id = prefs.getInt("theme_id",0);
@@ -67,14 +70,16 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        User.getMessage = true;
         User.context = getApplicationContext();
         sendAvailabilityInfoToServer("userOnline");
     }
 
     @Override
     protected void onPause() {
-        super.onPause();
+        User.getMessage = false;
         sendAvailabilityInfoToServer("userOffline");
+        super.onPause();
     }
 
     private void sendAvailabilityInfoToServer(final String option) {
