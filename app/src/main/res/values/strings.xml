@@ -49,6 +49,16 @@
     <string name="btn_minus">-</string>
     <string name="btn_plus">+</string>
     <string name="txt_raise">1000</string>
+    <string name="your_turn">It\'s your turn</string>
+    <string name="opponent_turn">It\'s your opponent turn</string>
+    <string name="you_win">You win!</string>
+    <string name="opponent_win">Opponent wins!</string>
+    <string name="draw">Draw!</string>
+    <string name="all_in">All in!</string>
+    <string name="you_checked">You checked!</string>
+    <string name="you_called">You called!</string>
+    <string name="you_raised">You raised!</string>
+    <string name="opponent">Opponent</string>
 
 
 </resources>

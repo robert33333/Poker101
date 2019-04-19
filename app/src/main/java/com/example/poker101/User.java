@@ -2,12 +2,11 @@ package com.example.poker101;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.Looper;
 
 import com.example.poker101.date.Comanda;
 import com.example.poker101.date.Player_info;
+import com.example.poker101.date.Tura;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 
@@ -18,17 +17,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import static com.example.poker101.User.goToWaitScreen;
-import static java.lang.Thread.sleep;
 
 public class User {
 
     public static boolean getMessage = false;
 
     public static Player_info player_info;
+    public static boolean yourTurn;
 
     public static Context context;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
@@ -94,11 +90,25 @@ public class User {
                                          break;
                                      case "acceptInvite":
                                          User.player_info = (Player_info) comanda.getObj();
+                                         User.yourTurn = false;
                                          User.goToGame();
                                          break;
                                      case "startGame":
                                          User.player_info = (Player_info) comanda.getObj();
+                                         User.yourTurn = true;
                                          User.goToGame();
+                                         break;
+                                     case "tura":
+                                         Handler mainHandler = new Handler(context.getMainLooper());
+                                         final Comanda comandaAux = comanda;
+                                         Runnable myRunnable = new Runnable() {
+                                             @Override
+                                             public void run() {
+                                                 GameActivity.updateGame((Tura) comandaAux.getObj());
+                                             } // This is your code
+                                         };
+                                         mainHandler.post(myRunnable);
+                                         break;
                                  }
                              } catch (IOException e) {
                                  e.printStackTrace();
