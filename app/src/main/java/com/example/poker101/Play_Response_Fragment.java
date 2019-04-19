@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.poker101.date.Comanda;
+import com.example.poker101.date.Invite;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,9 +57,8 @@ public class Play_Response_Fragment extends Fragment {
                     @Override
                     public void run() {
                         try {
-                            Comanda comanda = new Comanda("acceptInvite",User.currentOpponent);
+                            Comanda comanda = new Comanda("acceptInvite",new Invite(User.currentOpponent,User.user.getString("id")));
                             User.oos.writeObject(comanda);
-                            User.goToGame();
 
                         } catch (IOException e) {
                             e.printStackTrace();

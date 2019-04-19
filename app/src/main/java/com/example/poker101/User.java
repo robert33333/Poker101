@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.example.poker101.date.Comanda;
+import com.example.poker101.date.Player_info;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 
@@ -26,6 +27,8 @@ import static java.lang.Thread.sleep;
 public class User {
 
     public static boolean getMessage = false;
+
+    public static Player_info player_info;
 
     public static Context context;
     public static final String MY_PREFS_NAME = "MyPrefsFile";
@@ -90,6 +93,11 @@ public class User {
                                          User.goToMenu();
                                          break;
                                      case "acceptInvite":
+                                         User.player_info = (Player_info) comanda.getObj();
+                                         User.goToGame();
+                                         break;
+                                     case "startGame":
+                                         User.player_info = (Player_info) comanda.getObj();
                                          User.goToGame();
                                  }
                              } catch (IOException e) {
