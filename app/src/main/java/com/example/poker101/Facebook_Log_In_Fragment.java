@@ -2,7 +2,11 @@ package com.example.poker101;
 
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -63,6 +67,29 @@ public class Facebook_Log_In_Fragment extends Fragment {
                                     public void onCompleted(
                                             JSONObject object,
                                             GraphResponse response) {
+
+                                        Intent alarmIntent = new Intent(User.context, AlarmReceiver.class);
+                                        PendingIntent pendingIntent = PendingIntent.getBroadcast(User.context, 0, alarmIntent, 0);
+
+
+                                        if (pendingIntent != null) {
+                                            User.pendingIntet = pendingIntent;
+                                            AlarmManager manager = (AlarmManager) User.context.getSystemService(Context.ALARM_SERVICE);
+                                            int interval = 1000 * 60 * 60 * 24;
+
+                                            /* Set the alarm to start at 10:30 AM */
+                                            Calendar calendar = null;
+                                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                                                calendar = Calendar.getInstance();
+                                                calendar.setTimeInMillis(System.currentTimeMillis());
+                                                calendar.set(Calendar.HOUR_OF_DAY, 10);
+                                                calendar.set(Calendar.MINUTE, 0);
+
+                                                /* Repeating on every 1 day interval */
+                                                manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                                                        interval, pendingIntent);
+                                            }
+                                        }
                                         // Application code
                                         User.user = object;
                                         nextActivity();

@@ -1,5 +1,6 @@
 package com.example.poker101;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -47,6 +48,8 @@ public class User {
 
     public static String currentOpponent;
     public static String bani;
+    public static PendingIntent pendingIntet;
+    public static boolean setMoney = false;
 
     public static void initialize() {
         try {

@@ -2,6 +2,8 @@ package com.example.poker101;
 
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -70,7 +72,8 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 LoginManager.getInstance().logOut();
-
+                AlarmManager manager = (AlarmManager) User.context.getSystemService(Context.ALARM_SERVICE);
+                manager.cancel(User.pendingIntet);
                 Activity activity1 = getActivity();
                 Intent intent = new Intent(activity1,MainActivity.class);
                 activity1.startActivity(intent);

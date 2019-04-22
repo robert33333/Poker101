@@ -1,5 +1,6 @@
 package com.example.poker101;
 
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -47,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
                                 JSONObject object,
                                 GraphResponse response) {
                             // Application code
+                            Intent alarmIntent = new Intent(User.context, AlarmReceiver.class);
+                            PendingIntent pendingIntent = PendingIntent.getBroadcast(User.context, 0, alarmIntent, 0);
+
+                            if (pendingIntent != null) {
+                                User.pendingIntet = pendingIntent;
+                            }
                             User.user = object;
                             nextActivity();
                         }

@@ -377,4 +377,14 @@ public class GameActivity extends AppCompatActivity {
             User.goToMenu("fromGameEnd");
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        try {
+            sendCommand(new Comanda("fold", User.user.getString("id")));
+            super.onDestroy();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

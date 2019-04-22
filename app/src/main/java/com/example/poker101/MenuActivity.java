@@ -1,12 +1,12 @@
 package com.example.poker101;
 
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.poker101.date.Comanda;
@@ -19,6 +19,7 @@ import static com.example.poker101.User.MY_PREFS_NAME;
 import static com.example.poker101.User.oos;
 
 public class MenuActivity extends AppCompatActivity {
+    private PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
