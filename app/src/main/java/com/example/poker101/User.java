@@ -46,6 +46,7 @@ public class User {
 
 
     public static String currentOpponent;
+    public static String bani;
 
     public static void initialize() {
         try {
@@ -86,7 +87,7 @@ public class User {
                                          break;
                                      case "declineInvite":
                                          User.currentOpponent = null;
-                                         User.goToMenu();
+                                         User.goToMenu("fromDecline");
                                          break;
                                      case "acceptInvite":
                                          User.player_info = (Player_info) comanda.getObj();
@@ -148,10 +149,11 @@ public class User {
         context.startActivity(intent);
     }
 
-    public static void goToMenu() {
+    public static void goToMenu(String something) {
+        User.currentOpponent = null;
         Intent intent = new Intent(context, MenuActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("fromDecline",true);
+        intent.putExtra(something, true);
         context.startActivity(intent);
     }
 

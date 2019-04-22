@@ -20,5 +20,7 @@
     <color name="colorLightText">#FFFFFF</color>
     <color name="colorLightButton">#B80000</color>
 
+    <color name="disabledButton">#404040</color>
+    <color name="enabledButton">#ffffbb33</color>
 
 </resources>

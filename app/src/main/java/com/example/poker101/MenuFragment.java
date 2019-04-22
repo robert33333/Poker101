@@ -12,9 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.poker101.date.Comanda;
 import com.facebook.login.LoginManager;
 
 import org.json.JSONException;
+
+import java.io.IOException;
+
+import static com.example.poker101.User.ois;
+import static com.example.poker101.User.oos;
 
 
 /**
@@ -75,6 +81,38 @@ public class MenuFragment extends Fragment {
         btn_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Runnable myRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            if (User.socket == null) {
+                                User.initialize();
+                            }
+                            Comanda cmdBani =
+                                    new Comanda("getBani",
+                                            User.user.getString("id"));
+                            oos.writeObject(cmdBani);
+                            User.bani = (String) ois.readObject();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (Exception exp) {
+                            exp.printStackTrace();
+                        }
+
+                    }
+
+
+                };
+
+                Thread myThread = new Thread(myRunnable);
+                myThread.start();
+                try {
+                    myThread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 Fragment fragment_profile = new ProfileFragment();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frame_menu, fragment_profile, "fragment_profile").addToBackStack(null).commit();
             }

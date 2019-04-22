@@ -60,5 +60,8 @@
     <string name="you_raised">You raised!</string>
     <string name="opponent">Opponent</string>
 
+    <string name="profile_bani">Bani:</string>
+    <string name="opponent_folded">Opponent folded!</string>
+
 
 </resources>

@@ -13,12 +13,14 @@ import android.widget.Toast;
 import com.example.poker101.date.Comanda;
 import com.example.poker101.date.Pariu;
 import com.example.poker101.date.Tura;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 
 public class GameActivity extends AppCompatActivity {
+    public static boolean goBack = false;
     public static TextView chips_total_text;
     public static TextView chips_played_text;
     public static TextView opponent_chips_played_text;
@@ -34,7 +36,6 @@ public class GameActivity extends AppCompatActivity {
     public static Button btn_raise;
     public static Button raise_increment;
     public static Button raise_decrement;
-    public static String last_action = "";
     public static int tura_curenta = 0;
 
     public static void endTurn() {
@@ -43,71 +44,31 @@ public class GameActivity extends AppCompatActivity {
         btn_raise.setEnabled(false);
         btn_fold.setEnabled(false);
         btn_check.setEnabled(false);
+        btn_fold.setTextColor(User.context.getResources().getColor(R.color.colorDarkText));
+        btn_raise.setTextColor(User.context.getResources().getColor(R.color.colorDarkText));
+        btn_call.setTextColor(User.context.getResources().getColor(R.color.colorDarkText));
+        btn_check.setTextColor(User.context.getResources().getColor(R.color.colorDarkText));
         turn_player.setText(R.string.opponent_turn);
     }
 
     public static void updateGame(Tura tura) {
-        turn_action.setText(("Opponent " + tura.opponent_action));
-        User.yourTurn = true;
-        turn_player.setText(R.string.your_turn);
-        Resources res = User.context.getResources();
-        if (tura.tura_curenta != GameActivity.tura_curenta) {
-            GameActivity.tura_curenta = tura.tura_curenta;
-            GameActivity.last_action = "";
-            btn_call.setEnabled(true);
-            btn_raise.setEnabled(true);
-            btn_check.setEnabled(true);
-            btn_fold.setEnabled(true);
-            for (int i = 0; i < tura.carti.size(); i++) {
-                if (tura.carti.get(i) != null) {
-                    String cardName = "_" + tura.carti.get(i).getNumar() + tura.carti.get(i).getTip() + "";
-                    int resID1 = res.getIdentifier(cardName, "drawable", User.context.getPackageName());
-                    if (i == 0) {
-                        dealerCard1.setImageResource(resID1);
-                    } else if (i == 1) {
-                        dealerCard2.setImageResource(resID1);
-                    } else if (i == 2) {
-                        dealerCard3.setImageResource(resID1);
-                    } else if (i == 3) {
-                        dealerCard4.setImageResource(resID1);
-                    } else if (i == 4) {
-                        dealerCard5.setImageResource(resID1);
-                    }
-                } else {
-                    break;
-                }
+        if (tura.opponent_action != null && tura.opponent_action.equals("fold")) {
+            goBack = true;
+            turn_action.setText((User.context.getResources().getString(R.string.opponent_folded)));
+            return;
+        }
+        if (tura.winner != null) {
+            opponent_chips_played_text.setText(Integer.toString(tura.opponent_bani));
+            Resources res = User.context.getResources();
+            if (tura.opponent_carte1 != null) {
+                String card1Name = "_" + tura.opponent_carte1.getNumar() + tura.opponent_carte1.getTip() + "";
+                int resID1 = res.getIdentifier(card1Name, "drawable", User.context.getPackageName());
+                Picasso.get().load(resID1).fit().into(opponentCard1);
+                String card2Name = "_" + tura.opponent_carte2.getNumar() + tura.opponent_carte2.getTip() + "";
+                int resID2 = res.getIdentifier(card2Name, "drawable", User.context.getPackageName());
+                Picasso.get().load(resID2).fit().into(opponentCard2);
             }
-        }
-        if (GameActivity.last_action.equals("raise") && tura.opponent_action.equals("raised")) {
-            btn_raise.setEnabled(false);
-        } else {
-            btn_raise.setEnabled(true);
-        }
-        if (!tura.opponent_action.equals("raise") && !tura.opponent_action.equals("call")) {
-            btn_check.setEnabled(true);
-        } else {
-            btn_check.setEnabled(false);
-        }
-        btn_call.setEnabled(true);
-        btn_raise.setEnabled(true);
-        btn_fold.setEnabled(true);
-        opponent_chips_played_text.setText(Integer.toString(tura.opponent_bani));
-        int pariati1 = Integer.parseInt(chips_played_text.getText().toString());
-        int total = Integer.parseInt(chips_total_text.getText().toString());
-        int pariati2 = Integer.parseInt(chips_played_text.getText().toString());
-        if ((total - (pariati2 - pariati1)) < 0) {
-            btn_call.setText(R.string.all_in);
-        }
-        if (tura.opponent_carte1 != null) {
-
-            String card1Name = "_" + tura.opponent_carte1.getNumar() + tura.opponent_carte1.getTip() + "";
-            int resID1 = res.getIdentifier(card1Name, "drawable", User.context.getPackageName());
-            opponentCard1.setImageResource(resID1);
-
-            String card2Name = "_" + tura.opponent_carte2.getNumar() + tura.opponent_carte2.getTip() + "";
-            int resID2 = res.getIdentifier(card2Name, "drawable", User.context.getPackageName());
-            opponentCard2.setImageResource(resID2);
-
+            goBack = true;
             try {
                 if (tura.winner.equals(User.user.getString("id"))) {
                     turn_action.setText(R.string.you_win);
@@ -118,6 +79,61 @@ public class GameActivity extends AppCompatActivity {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+            }
+        } else {
+            turn_action.setText(("Opponent " + tura.opponent_action));
+            User.yourTurn = true;
+            btn_fold.setEnabled(true);
+            btn_raise.setEnabled(true);
+            btn_fold.setTextColor(User.context.getResources().getColor(R.color.disabledButton));
+            btn_raise.setTextColor(User.context.getResources().getColor(R.color.disabledButton));
+
+            if (tura.opponent_action.equals("raise")) {
+                btn_call.setEnabled(true);
+                btn_call.setTextColor(User.context.getResources().getColor(R.color.disabledButton));
+            }
+
+            if (tura.opponent_action.equals("check")) {
+                btn_check.setEnabled(true);
+                btn_check.setTextColor(User.context.getResources().getColor(R.color.disabledButton));
+            }
+
+            turn_player.setText(R.string.your_turn);
+            Resources res = User.context.getResources();
+            if (tura.tura_curenta != GameActivity.tura_curenta) {
+                GameActivity.tura_curenta = tura.tura_curenta;
+                if (!btn_call.isEnabled()) {
+                    btn_check.setEnabled(true);
+                    btn_check.setTextColor(User.context.getResources().getColor(R.color.disabledButton));
+                }
+
+                for (int i = 0; i < tura.carti.size(); i++) {
+                    if (tura.carti.get(i) != null) {
+                        String cardName = "_" + tura.carti.get(i).getNumar() + tura.carti.get(i).getTip() + "";
+                        int resID1 = res.getIdentifier(cardName, "drawable", User.context.getPackageName());
+                        if (i == 0) {
+                            Picasso.get().load(resID1).fit().into(dealerCard1);
+                        } else if (i == 1) {
+                            Picasso.get().load(resID1).fit().into(dealerCard2);
+                        } else if (i == 2) {
+                            Picasso.get().load(resID1).fit().into(dealerCard3);
+                        } else if (i == 3) {
+                            Picasso.get().load(resID1).fit().into(dealerCard4);
+                        } else if (i == 4) {
+                            Picasso.get().load(resID1).fit().into(dealerCard5);
+                        }
+                    } else {
+                        break;
+                    }
+                }
+
+            }
+            opponent_chips_played_text.setText(Integer.toString(tura.opponent_bani));
+            int pariati1 = Integer.parseInt(chips_played_text.getText().toString());
+            int total = Integer.parseInt(chips_total_text.getText().toString());
+            int pariati2 = Integer.parseInt(chips_played_text.getText().toString());
+            if ((total - (pariati2 - pariati1)) < 0) {
+                btn_call.setText(R.string.all_in);
             }
         }
     }
@@ -155,12 +171,12 @@ public class GameActivity extends AppCompatActivity {
         card1 = findViewById(R.id.player_card1);
         String card1Name = "_" + User.player_info.carte1.getNumar() + User.player_info.carte1.getTip() + "";
         int resID1 = res.getIdentifier(card1Name, "drawable", getPackageName());
-        card1.setImageResource(resID1);
+        Picasso.get().load(resID1).fit().into(card1);
 
         card2 = findViewById(R.id.player_card2);
         String card2Name = "_" + User.player_info.carte2.getNumar() + User.player_info.carte2.getTip() + "";
         int resID2 = res.getIdentifier(card2Name, "drawable", getPackageName());
-        card2.setImageResource(resID2);
+        Picasso.get().load(resID2).fit().into(card2);
 
         dealerCard1 = findViewById(R.id.dealer_card1);
         dealerCard2 = findViewById(R.id.dealer_card2);
@@ -171,29 +187,29 @@ public class GameActivity extends AppCompatActivity {
         opponentCard2 = findViewById(R.id.opponent_card2);
 
         if (User.card_id == 0) {
-            dealerCard1.setImageResource(R.drawable.card_back_default);
-            dealerCard2.setImageResource(R.drawable.card_back_default);
-            dealerCard3.setImageResource(R.drawable.card_back_default);
-            dealerCard4.setImageResource(R.drawable.card_back_default);
-            dealerCard5.setImageResource(R.drawable.card_back_default);
-            opponentCard1.setImageResource(R.drawable.card_back_default);
-            opponentCard2.setImageResource(R.drawable.card_back_default);
+            Picasso.get().load(R.drawable.card_back_default).fit().into(dealerCard1);
+            Picasso.get().load(R.drawable.card_back_default).fit().into(dealerCard2);
+            Picasso.get().load(R.drawable.card_back_default).fit().into(dealerCard3);
+            Picasso.get().load(R.drawable.card_back_default).fit().into(dealerCard4);
+            Picasso.get().load(R.drawable.card_back_default).fit().into(dealerCard5);
+            Picasso.get().load(R.drawable.card_back_default).fit().into(opponentCard1);
+            Picasso.get().load(R.drawable.card_back_default).fit().into(opponentCard2);
         } else if (User.card_id == 1) {
-            dealerCard1.setImageResource(R.drawable.card_back1);
-            dealerCard2.setImageResource(R.drawable.card_back1);
-            dealerCard3.setImageResource(R.drawable.card_back1);
-            dealerCard4.setImageResource(R.drawable.card_back1);
-            dealerCard5.setImageResource(R.drawable.card_back1);
-            opponentCard1.setImageResource(R.drawable.card_back1);
-            opponentCard2.setImageResource(R.drawable.card_back1);
+            Picasso.get().load(R.drawable.card_back1).fit().into(dealerCard1);
+            Picasso.get().load(R.drawable.card_back1).fit().into(dealerCard2);
+            Picasso.get().load(R.drawable.card_back1).fit().into(dealerCard3);
+            Picasso.get().load(R.drawable.card_back1).fit().into(dealerCard4);
+            Picasso.get().load(R.drawable.card_back1).fit().into(dealerCard5);
+            Picasso.get().load(R.drawable.card_back1).fit().into(opponentCard1);
+            Picasso.get().load(R.drawable.card_back1).fit().into(opponentCard2);
         } else if (User.card_id == 2) {
-            dealerCard1.setImageResource(R.drawable.card_back2);
-            dealerCard2.setImageResource(R.drawable.card_back2);
-            dealerCard3.setImageResource(R.drawable.card_back2);
-            dealerCard4.setImageResource(R.drawable.card_back2);
-            dealerCard5.setImageResource(R.drawable.card_back2);
-            opponentCard1.setImageResource(R.drawable.card_back2);
-            opponentCard2.setImageResource(R.drawable.card_back2);
+            Picasso.get().load(R.drawable.card_back2).fit().into(dealerCard1);
+            Picasso.get().load(R.drawable.card_back2).fit().into(dealerCard2);
+            Picasso.get().load(R.drawable.card_back2).fit().into(dealerCard3);
+            Picasso.get().load(R.drawable.card_back2).fit().into(dealerCard4);
+            Picasso.get().load(R.drawable.card_back2).fit().into(dealerCard5);
+            Picasso.get().load(R.drawable.card_back2).fit().into(opponentCard1);
+            Picasso.get().load(R.drawable.card_back2).fit().into(opponentCard2);
         }
 
         btn_check = findViewById(R.id.btn_check);
@@ -208,6 +224,13 @@ public class GameActivity extends AppCompatActivity {
             btn_call.setEnabled(false);
             btn_raise.setEnabled(false);
             btn_fold.setEnabled(false);
+            btn_check.setTextColor(getResources().getColor(R.color.colorDarkText));
+            btn_raise.setTextColor(getResources().getColor(R.color.colorDarkText));
+            btn_call.setTextColor(getResources().getColor(R.color.colorDarkText));
+            btn_fold.setTextColor(getResources().getColor(R.color.colorDarkText));
+        } else {
+            btn_call.setEnabled(false);
+            btn_call.setTextColor(getResources().getColor(R.color.colorDarkText));
         }
 
         btn_check.setOnClickListener(new View.OnClickListener() {
@@ -216,7 +239,6 @@ public class GameActivity extends AppCompatActivity {
                 try {
                     sendCommand(new Comanda("check", User.user.getString("id")));
                     turn_action.setText(R.string.you_checked);
-                    last_action = "check";
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -228,6 +250,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     sendCommand(new Comanda("fold", User.user.getString("id")));
+                    goBack = true;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -251,7 +274,6 @@ public class GameActivity extends AppCompatActivity {
                     User.player_info.bani_pariati = Integer.parseInt(chips_played_text.getText().toString());
                     User.player_info.bani_totali = Integer.parseInt(chips_total_text.getText().toString());
                     turn_action.setText(R.string.you_called);
-                    last_action = "call";
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -274,12 +296,11 @@ public class GameActivity extends AppCompatActivity {
                     chips_played_text.setText(Integer.toString(pariati2 + raised));
                     Pariu pariu = new Pariu();
                     pariu.id_facebook = User.user.getString("id");
-                    pariu.bani = raised + (pariati2 - pariati1);
+                    pariu.bani = raised;
                     sendCommand(new Comanda("raise", pariu));
                     User.player_info.bani_pariati = Integer.parseInt(chips_played_text.getText().toString());
                     User.player_info.bani_totali = Integer.parseInt(chips_total_text.getText().toString());
                     turn_action.setText(R.string.you_raised);
-                    last_action = "raise";
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -352,6 +373,8 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
+        if (goBack) {
+            User.goToMenu("fromGameEnd");
+        }
     }
 }

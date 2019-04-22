@@ -1,18 +1,12 @@
 package com.example.poker101;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.poker101.date.Comanda;
 import com.example.poker101.date.Invite;
@@ -22,11 +16,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.example.poker101.User.goToWaitScreen;
-import static com.example.poker101.User.ois;
 import static com.example.poker101.User.oos;
 
 public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.ViewWrapper> {
@@ -60,7 +51,7 @@ public class FriendListAdapter extends RecyclerView.Adapter<FriendListAdapter.Vi
     public void onBindViewHolder(final ViewWrapper viewWrapper, int position) {
         try {
             viewWrapper.getFriend_name().setText(list_friend.getJSONObject(viewWrapper.getAdapterPosition()).getString("name"));
-            Picasso.get().load("http://graph.facebook.com/"+list_friend.getJSONObject(viewWrapper.getAdapterPosition()).get("id")+"/picture?type=large").into(viewWrapper.getFriend_img());
+            Picasso.get().load("http://graph.facebook.com/" + list_friend.getJSONObject(viewWrapper.getAdapterPosition()).get("id") + "/picture?type=large").fit().into(viewWrapper.getFriend_img());
             if (extra) {
                 viewWrapper.getFriend_btn().setOnClickListener(new View.OnClickListener() {
                     @Override

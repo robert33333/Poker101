@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.poker101.date.Comanda;
 import com.squareup.picasso.Picasso;
@@ -31,7 +32,6 @@ import static com.example.poker101.User.oos;
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment {
-
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -53,8 +53,11 @@ public class ProfileFragment extends Fragment {
         AppCompatImageView profile_img = getActivity().findViewById(R.id.profile_img);
 
         try {
-            Picasso.get().load("http://graph.facebook.com/"+User.user.get("id")+"/picture?type=large").into(profile_img);
+            Picasso.get().load("http://graph.facebook.com/" + User.user.get("id") + "/picture?type=large").fit().into(profile_img);
             profile_name.setText(User.user.getString("name"));
+
+            TextView txt_bani_numar = getActivity().findViewById(R.id.txt_bani_numar);
+            txt_bani_numar.setText(User.bani);
 
             final JSONArray list_friend = User.user.getJSONObject("friends").getJSONArray("data");
             Runnable myRunnable = new Runnable() {
@@ -101,7 +104,6 @@ public class ProfileFragment extends Fragment {
                     }
 
 
-                ;
             };
 
             Thread myThread = new Thread(myRunnable);
